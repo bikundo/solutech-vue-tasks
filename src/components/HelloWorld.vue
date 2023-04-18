@@ -1,7 +1,7 @@
 <template>
-  <div class="container mt-5 mb-5">
+  <div class="container mx-auto px-4 py-6">
     <div class="gap-8 columns-4">
-      <div class="col mx-2 px-2 py-3 bg-light border rounded">
+      <div class="col mx-2 px-2 py-3 bg-red-50 border rounded">
         <h6>backlog 💡</h6>
         <draggable class="draggable-list" :list="tasks.ideas" group="tasks">
           <div v-for="(idea, i) in tasks.ideas" :key="i">
@@ -11,7 +11,7 @@
           </div>
         </draggable>
       </div>
-      <div class="col mx-2 px-2 py-3 bg-light border rounded">
+      <div class="col mx-2 px-2 py-3 bg-blue-50 border rounded">
         <h6>in progress ✍</h6>
         <draggable class="draggable-list" :list="tasks.todos" group="tasks">
           <div v-for="(todo, i) in tasks.todos" :key="i">
@@ -21,7 +21,7 @@
           </div>
         </draggable>
       </div>
-      <div class="col mx-2 px-2 py-3 bg-light border rounded">
+      <div class="col mx-2 px-2 py-3 bg-blue-50 border rounded">
         <h6>In Review 🗓</h6>
         <draggable
             class="draggable-list"
@@ -35,7 +35,7 @@
           </div>
         </draggable>
       </div>
-      <div class="col mx-2 px-2 py-3 bg-light border rounded">
+      <div class="col mx-2 px-2 py-3 bg-green-50 border rounded">
         <h6>completed ✅</h6>
         <draggable class="draggable-list" :list="tasks.completed" group="tasks">
           <div v-for="(task, i) in tasks.completed" :key="i">
