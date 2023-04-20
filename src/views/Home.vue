@@ -3,7 +3,7 @@
     <div class="gap-8 columns-4">
       <div class="col mx-2 px-2 py-3 bg-red-50 border rounded">
         <h6>backlog 💡</h6>
-        <draggable class="draggable-list" :list="tasks.backlog" group="tasks">
+        <draggable class="draggable-list" :list="tasks.backlog" group="tasks" id="1" :move="checkMove">
           <div v-for="(task, i) in tasks.backlog" :key="i">
             <div class="bg-white mt-3 p-2 shadow border rounded">
               <p>{{ task.name }}</p>
@@ -13,7 +13,7 @@
       </div>
       <div class="col mx-2 px-2 py-3 bg-blue-50 border rounded">
         <h6>in progress ✍</h6>
-        <draggable class="draggable-list" :list="tasks.in_progress" group="tasks">
+        <draggable class="draggable-list" :list="tasks.in_progress" group="tasks" id="2" :move="checkMove">
           <div v-for="(task, i) in tasks.in_progress" :key="i">
             <div class="bg-white mt-3 p-2 shadow border rounded">
               <p>{{ task.name }}</p>
@@ -27,6 +27,8 @@
             class="draggable-list"
             :list="tasks.in_review"
             group="tasks"
+            id="3"
+            :move="checkMove"
         >
           <div v-for="(task, i) in tasks.in_review" :key="i">
             <div class="bg-white mt-3 p-2 shadow border rounded">
@@ -37,7 +39,7 @@
       </div>
       <div class="col mx-2 px-2 py-3 bg-green-50 border rounded">
         <h6>completed ✅</h6>
-        <draggable class="draggable-list" :list="tasks.completed" group="tasks">
+        <draggable class="draggable-list" :list="tasks.completed" group="tasks" id="4" :move="checkMove">
           <div v-for="(task, i) in tasks.completed" :key="i">
             <div class="bg-white mt-3 p-2 shadow border rounded">
               <p>{{ task.name }}</p>
@@ -67,12 +69,26 @@ export default {
       },
     };
   },
+  methods: {
+    checkMove: function (event) {
 
+      let taskId = event.draggedContext.element.id
+      let statusId = event.to.id
+      console.log(statusId)
+      this.updateStatus(taskId, statusId);
+    },
+    updateStatus($taskId, statusId) {
+      axios
+          .put('https://solutech-tasks.test/api/tasks/' + $taskId, {
+            status_id: statusId,
+          })
+          .then((response) => console.log(response))
+    }
+  },
   mounted() {
 
     axios.get('https://solutech-tasks.test/api/tasks')
         .then((response) => {
-          console.log(response)
           response.data.data.forEach(task => {
             switch (task.status_id) {
               case 1:
