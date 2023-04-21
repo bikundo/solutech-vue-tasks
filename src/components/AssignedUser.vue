@@ -4,6 +4,14 @@
       {{ task.taskuser.user.name }}
     </b>
     </Alert>
+    <div class="my-3 border-2 rounded p-2">
+      <h5 class="mb-2  font-bold tracking-tight text-gray-900 dark:text-white">
+        Remarks
+      </h5>
+      <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400" >
+        {{ task.taskuser.remarks }}
+      </p>
+    </div>
     <Alert type="dark" class="mb-2">Start time <b>
       {{ moment(task.taskuser.start_time).format('MMMM Do YYYY, h:mm:ss a') }}
     </b>
