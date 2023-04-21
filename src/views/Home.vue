@@ -34,7 +34,7 @@
           </p>
         </div>
         <AssignedUser v-if="selectedTask.taskuser" :task="selectedTask"></AssignedUser>
-        <unassigned-task v-else></unassigned-task>
+        <unassigned-task v-else :task="selectedTask"></unassigned-task>
 
       </template>
       <template #footer>
@@ -55,7 +55,7 @@
         <draggable class="draggable-list" :list="tasks.backlog" group="tasks" id="1" :move="checkMove" @touchstart="showModal">
           <div v-for="(task, i) in tasks.backlog" :key="i" v-on:click.native="showModal(task)">
             <div class="bg-white mt-3 p-2 shadow border rounded">
-              <p><b>{{task.id}}</b> {{ task.name }}</p>
+              <p><b>{{ task.id }}</b> {{ task.name }}</p>
             </div>
           </div>
         </draggable>
@@ -65,7 +65,7 @@
         <draggable class="draggable-list" :list="tasks.in_progress" group="tasks" id="2" :move="checkMove" @touchstart="showModal">
           <div v-for="(task, i) in tasks.in_progress" :key="i" v-on:click.native="showModal(task)">
             <div class="bg-white mt-3 p-2 shadow border rounded">
-              <p><b>{{task.id}}</b> {{ task.name }}</p>
+              <p><b>{{ task.id }}</b> {{ task.name }}</p>
             </div>
           </div>
         </draggable>
@@ -82,7 +82,7 @@
         >
           <div v-for="(task, i) in tasks.in_review" :key="i" @click="showModal(task)" v-on:click.native="showModal(task)">
             <div class="bg-white mt-3 p-2 shadow border rounded">
-              <p><b>{{task.id}}</b> {{ task.name }}</p>
+              <p><b>{{ task.id }}</b> {{ task.name }}</p>
             </div>
           </div>
         </draggable>
@@ -92,7 +92,7 @@
         <draggable class="draggable-list" :list="tasks.completed" group="tasks" id="4" :move="checkMove" @touchstart="showModal">
           <div v-for="(task, i) in tasks.completed" :key="i" v-on:click.native="showModal(task)">
             <div class="bg-white mt-3 p-2 shadow border rounded">
-              <p><b>{{task.id}}</b> {{ task.name }}</p>
+              <p><b>{{ task.id }}</b> {{ task.name }}</p>
             </div>
           </div>
         </draggable>
