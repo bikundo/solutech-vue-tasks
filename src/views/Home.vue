@@ -23,6 +23,18 @@
             {{ selectedTask.description }}
           </p>
         </div>
+        <div class="mt-2 p-2 border-2 rounded">
+          <h5 class="mb-2  font-bold tracking-tight text-gray-900 dark:text-white">
+            <small>
+              due date
+            </small>
+          </h5>
+          <p>
+            {{ moment(selectedTask.due_date).format('MMMM Do YYYY, h:mm:ss a') }}
+          </p>
+        </div>
+        <AssignedUser v-if="selectedTask.taskuser" :task="selectedTask"></AssignedUser>
+        <unassigned-task v-else></unassigned-task>
 
       </template>
       <template #footer>
@@ -88,17 +100,25 @@
     </div>
   </div>
 </template>
+<script setup>
+import moment from "moment";
+import UnassignedTask from "../components/unassignedTask.vue";
+
+</script>
 
 <script>
 import {VueDraggableNext} from "vue-draggable-next";
 import axios from "axios";
 import {Modal, Input, TheCard} from 'flowbite-vue'
+import AssignedUser from "../components/AssignedUser.vue";
+
 
 export default {
   components: {
     draggable: VueDraggableNext,
     Modal: Modal,
     Input: Input,
+    AssignedUser: AssignedUser,
     TheCard: TheCard,
   },
   data() {
