@@ -168,7 +168,7 @@ export default {
     createNewTask: function () {
       let taskPayload = this.newTask
       axios
-          .post('https://solutech-tasks.test/api/tasks/',
+          .post('/api/tasks/',
               taskPayload
           )
           .then((response) => this.loadPageData())
@@ -184,7 +184,7 @@ export default {
     updateDescription(event) {
       console.log(event.target.innerText)
       axios
-          .put('https://solutech-tasks.test/api/tasks/' + this.selectedTask.id, {
+          .put('/api/tasks/' + this.selectedTask.id, {
             description: event.target.innerText,
           })
           .then((response) => this.loadPageData())
@@ -192,7 +192,7 @@ export default {
     },
     updateStatus(taskId, statusId) {
       axios
-          .put('https://solutech-tasks.test/api/tasks/' + taskId, {
+          .put('/api/tasks/' + taskId, {
             status_id: statusId,
           })
           .then((response) => console.log(response))
@@ -219,7 +219,7 @@ export default {
         in_review: [],
         completed: [],
       };
-      axios.get('https://solutech-tasks.test/api/tasks')
+      axios.get('/api/tasks')
           .then((response) => {
             response.data.data.forEach(task => {
               switch (task.status_id) {

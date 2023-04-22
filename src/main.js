@@ -9,6 +9,7 @@ import axios from "axios";
 const app = createApp(App)
 
 axios.defaults.withCredentials = true;
+axios.defaults.baseURL = 'https://solutech-tasks.test';
 axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
 
 

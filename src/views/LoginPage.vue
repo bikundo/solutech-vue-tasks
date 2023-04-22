@@ -59,8 +59,8 @@ export default {
     }),
     async login() {
       this.processing = true
-      await axios.get('https://solutech-tasks.test/sanctum/csrf-cookie')
-      await axios.post('https://solutech-tasks.test/api/login', this.auth).then((data) => {
+      await axios.get('/sanctum/csrf-cookie')
+      await axios.post('/api/login', this.auth).then((data) => {
         const payload = data.data;
         console.log(payload)
         this.signIn(payload)
