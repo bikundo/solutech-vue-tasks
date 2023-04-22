@@ -1,8 +1,32 @@
 <template>
-  <div class="container mx-auto px-4 py-6">
-    <button @click="showModal(false)" type="button" class="mt-5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-      Show modal
+  <div class="container mx-auto px-4 py-6 mb-4">
+    <button @click="showNewTaskModal" type="button" class="mt-5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+      create new task
     </button>
+
+    <Modal size="xl" v-if="taskModal" @close="closeNewTaskModal">
+      <template #header>
+        <div class="flex items-center text-lg">
+          New Task
+        </div>
+      </template>
+      <template #body>
+        <Input size="sm" class="mb-4" placeholder="enter task name" v-model="newTask.name" label="enter task name"/>
+        <Input size="sm" class="mb-4" placeholder="enter task description" v-model="newTask.description" label="enter task description"/>
+        <Input type="datetime-local" class="mb-4" size="sm" placeholder="enter task due date" v-model="newTask.due_date" label="select task due date and time"/>
+      </template>
+      <template #footer>
+        <div class="flex justify-between">
+          <button @click="closeNewTaskModal" type="button"
+                  class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">
+            cancel
+          </button>
+          <button @click="createNewTask" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+            create task
+          </button>
+        </div>
+      </template>
+    </Modal>
 
     <Modal size="xl" v-if="isShowModal" @close="closeModal">
       <template #header>
@@ -49,7 +73,7 @@
         </div>
       </template>
     </Modal>
-    <div class="gap-8 columns-4">
+    <div class="gap-8 columns-4 mt-4">
       <div class="col mx-2 px-2 py-3 bg-red-50 border rounded">
         <h6>backlog 💡</h6>
         <draggable class="draggable-list" :list="tasks.backlog" group="tasks" id="1" :move="checkMove" @touchstart="showModal">
@@ -124,6 +148,11 @@ export default {
   data() {
     return {
       token: localStorage.getItem('token'),
+      newTask: {
+        name: '',
+        description: '',
+        due_date: '',
+      },
       tasks: {
         backlog: [],
         in_progress: [],
@@ -131,10 +160,20 @@ export default {
         completed: [],
       },
       isShowModal: false,
+      taskModal: false,
       selectedTask: null
     };
   },
   methods: {
+    createNewTask: function () {
+      let taskPayload = this.newTask
+      axios
+          .post('https://solutech-tasks.test/api/tasks/',
+              taskPayload
+          )
+          .then((response) => this.loadPageData())
+          this.closeNewTaskModal()
+    },
     checkMove: function (event) {
 
       let taskId = event.draggedContext.element.id
@@ -165,6 +204,13 @@ export default {
     },
     closeModal() {
       this.isShowModal = false
+    },
+    showNewTaskModal() {
+
+      this.taskModal = true
+    },
+    closeNewTaskModal() {
+      this.taskModal = false
     },
     loadPageData() {
       this.tasks = {
