@@ -123,6 +123,7 @@ export default {
   },
   data() {
     return {
+      token: localStorage.getItem('token'),
       tasks: {
         backlog: [],
         in_progress: [],
@@ -195,6 +196,9 @@ export default {
   },
   mounted() {
     this.loadPageData()
+  },
+  created() {
+    axios.defaults.headers.common['Authorization'] = `Bearer ${this.token}`
   }
 };
 </script>
