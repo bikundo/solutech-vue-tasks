@@ -8,13 +8,41 @@ const router = createRouter({
     routes: [
         {
             path: '/',
-            component: home
+            component: home,
+            meta: {
+                requiresAuth: true
+            }
         },
         {
             path: '/login',
-            component: LoginPage
+            component: LoginPage,
+            meta: {
+                guest: true
+            }
         }
     ]
 })
+
+router.beforeEach((to, from, next) => {
+    if (to.matched.some(record => record.meta.requiresAuth)) {
+        if (localStorage.getItem('token') == null) {
+            next({
+                path: '/login',
+                params: { nextUrl: to.fullPath }
+            })
+        } else {
+            next()
+        }
+    } else if (to.matched.some(record => record.meta.guest)) {
+        if (localStorage.getItem('token') == null) {
+            next()
+        } else {
+            next('/')
+        }
+    } else {
+        next()
+    }
+})
+
 
 export default router
