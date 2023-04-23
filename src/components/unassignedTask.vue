@@ -45,7 +45,7 @@ export default {
     }
   },
   mounted() {
-    axios.get('https://solutech-tasks.test/api/users')
+    axios.get('/api/users')
         .then((response) => {
           this.users = response.data.data;
         })
@@ -53,7 +53,7 @@ export default {
   methods: {
     assignTask() {
       axios
-          .post('https://solutech-tasks.test/api/user-tasks/', {
+          .post('/api/user-tasks/', {
             remarks: this.remarks,
             user_id: this.user_id,
             task_id: this.task.id,
