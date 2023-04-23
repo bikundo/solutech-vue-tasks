@@ -43,6 +43,7 @@ export default {
             commit('SET_USER', {})
             commit('SET_AUTHENTICATED', false)
             commit('SET_TOKEN', null)
+            localStorage.removeItem("token");
         }
     }
 }

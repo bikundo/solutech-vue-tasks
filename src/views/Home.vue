@@ -4,6 +4,9 @@
       create new task
     </button>
 
+    <a href="javascript:void(0)" @click="logout" type="button" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900 float-right">log out </a>
+
+
     <Modal size="xl" v-if="taskModal" @close="closeNewTaskModal">
       <template #header>
         <div class="flex items-center text-lg">
@@ -135,6 +138,7 @@ import {VueDraggableNext} from "vue-draggable-next";
 import axios from "axios";
 import {Modal, Input, TheCard} from 'flowbite-vue'
 import AssignedUser from "../components/AssignedUser.vue";
+import {mapActions} from "vuex";
 
 
 export default {
@@ -165,6 +169,15 @@ export default {
     };
   },
   methods: {
+    ...mapActions({
+      signOut: "auth/logout"
+    }),
+    logout: function () {
+
+        this.signOut()
+        this.$router.push('/login')
+
+    },
     createNewTask: function () {
       let taskPayload = this.newTask
       axios
@@ -172,7 +185,7 @@ export default {
               taskPayload
           )
           .then((response) => this.loadPageData())
-          this.closeNewTaskModal()
+      this.closeNewTaskModal()
     },
     checkMove: function (event) {
 

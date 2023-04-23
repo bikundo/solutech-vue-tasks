@@ -66,7 +66,7 @@ export default {
         this.signIn(payload)
       }).catch((data) => {
         console.log(data)
-        this.message = data.message
+        this.message = data.response.data.message
       }).finally(() => {
         this.processing = false
       })
